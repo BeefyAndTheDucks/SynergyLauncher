@@ -1,0 +1,66 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:synergyLauncherUi="clr-namespace:SynergyLauncherUI"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        CanResize="True"
+        SizeToContent="Height"
+        MinWidth="800"
+        Width="800"
+        x:Class="SynergyLauncherUI.MainWindow"
+        Background="#222222"
+        Title="Synergy Launcher">
+    <StackPanel TextElement.Foreground="White">
+        <ScrollViewer Height="440" MinWidth="800" Margin="8" Name="LogScrollView">
+            <ItemsControl Name="LogItemsControl" x:DataType="synergyLauncherUi:MainWindow" ItemsSource="{Binding Logs}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Content}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        <Button Click="PlayButton_OnClick" Name="PlayButton" HorizontalAlignment="Center"
+                VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="16 16 16 2" Width="200"
+                Height="50" FontSize="30" IsEnabled="False">
+            <Button.Styles>
+                <Style Selector="Button">
+                    <Setter Property="Background" Value="Chartreuse" />
+                </Style>
+                <Style Selector="Button:pointerover /template/ ContentPresenter">
+                    <Setter Property="Background" Value="Green" />
+                </Style>
+                <Style Selector="Button:pressed /template/ ContentPresenter">
+                    <Setter Property="Background" Value="DarkGreen" />
+                </Style>
+            </Button.Styles>
+            Play
+        </Button>
+        <Button Name="OpenFolderButton" Click="OpenFolderButton_OnClick" HorizontalAlignment="Center"
+                VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="16 2 16 2" Width="150"
+                Height="35">
+            <Button.Styles>
+                <Style Selector="Button">
+                    <Setter Property="Background" Value="DarkGray" />
+                </Style>
+                <Style Selector="Button:pointerover /template/ ContentPresenter">
+                    <Setter Property="Background" Value="Gray" />
+                </Style>
+                <Style Selector="Button:pressed /template/ ContentPresenter">
+                    <Setter Property="Background" Value="DimGray" />
+                </Style>
+            </Button.Styles>
+            Open Folder
+        </Button>
+        <ComboBox SelectedIndex="0" MaxDropDownHeight="100" Name="ModLoaderDropdown" HorizontalAlignment="Center"
+                  VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                  Margin="16 2 16 16" Width = "100" Height="24">
+            <ComboBoxItem>Vanilla</ComboBoxItem>
+            <ComboBoxItem>Fabric</ComboBoxItem>
+            <!--<ComboBoxItem>Forge</ComboBoxItem>-->
+        </ComboBox>
+        <TextBlock Name="ProgressText" Text="Loading..." IsVisible="False" Margin="2 2 2 0"></TextBlock>
+        <ProgressBar Name="ProgressBar" Minimum="0" Maximum="1" IsVisible="False" ShowProgressText="True"></ProgressBar>
+    </StackPanel>
+</Window>
