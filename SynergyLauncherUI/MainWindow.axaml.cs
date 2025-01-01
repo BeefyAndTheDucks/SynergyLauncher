@@ -56,10 +56,18 @@ public partial class MainWindow : Window
 
     private async void SignIn()
     {
-        Storage.Logger!.Log("Launcher", "[INFO] Signing in...");
-        Storage.Session = await SignInHandler.SignIn();
-        Storage.Logger.Log("Launcher", "[INFO] Signed in!");
-        Dispatcher.UIThread.InvokeAsync(() => PlayButton.IsEnabled = true);
+        try
+        {
+            Storage.Logger!.Log("Launcher", "[INFO] Signing in...");
+            Storage.Session = await SignInHandler.SignIn();
+            Storage.Logger.Log("Launcher", "[INFO] Signed in!");
+            await Dispatcher.UIThread.InvokeAsync(() => PlayButton.IsEnabled = true);
+        }
+        catch (Exception e)
+        {
+            Storage.Logger!.Log("Launcher", $"[ERROR] {e.Message}");
+            await Dispatcher.UIThread.InvokeAsync(() => PlayButton.IsEnabled = false);
+        }
     }
 
     private void OnClosing(object? sender, WindowClosingEventArgs e)
