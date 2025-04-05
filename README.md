@@ -21,6 +21,6 @@ git clone https://github.com/BeefyAndTheDucks/SynergyLauncher.git
 Then open the project using JetBrains Rider or VS 2022 and let it import.
 
 You should now be ready! Start it by launching the `SynergyLauncherUI` configuration.
-You can build an EXE by launching the `Build` configuration and checking the `Build` folder in the root of the solution.
+On JetBrains Rider you can build an EXE by launching the `Build` configuration and checking the `Build` folder in the root of the solution, I'm unsure how to do this in VS2022.
 
 Happy coding!
