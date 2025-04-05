@@ -20,7 +20,7 @@ public partial class MainWindow : Window
 
     private Action? _stopAction;
 
-    private bool _startingGame;
+    private bool GameRunning { get; set; }
 
     private MinecraftLaunchHandler.ModLoader SelectedModLoader => ModLoaderDropdown.SelectedIndex switch
     {
@@ -78,9 +78,9 @@ public partial class MainWindow : Window
     // ReSharper disable once AsyncVoidMethod
     private async void PlayButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        _startingGame = !_startingGame;
+        GameRunning = !GameRunning;
 
-        if (_startingGame)
+        if (GameRunning)
         {
             PlayButton.Content = "Stop";
             ProgressBar.IsVisible = true;
@@ -95,7 +95,7 @@ public partial class MainWindow : Window
                     new SyncProgress<InstallerProgressChangedEventArgs>(fileProgress =>
                         Dispatcher.UIThread.InvokeAsync(() =>
                             ProgressText.Text =
-                                $"[{fileProgress.ProgressedTasks}/{fileProgress.TotalTasks}] {fileProgress.Name}")),
+                                $"[{fileProgress.ProgressedTasks}/{fileProgress.TotalTasks}] Downloaded {fileProgress.Name}")),
                     _cancellationTokenSource.Token);
             }
             catch (Exception ex)
@@ -128,7 +128,7 @@ public partial class MainWindow : Window
         Dispatcher.UIThread.InvokeAsync(() =>
         {
             _cancellationTokenSource = new CancellationTokenSource();
-            _startingGame = false;
+            GameRunning = false;
             PlayButton.Content = "Play";
             ProgressBar.Value = 0;
             ProgressBar.IsVisible = false;

@@ -17,6 +17,7 @@ public static class SignInHandler
             return await loginHandler.Authenticate();
 
         // MSAL
+        //IPublicClientApplication app = await MsalClientHelper.BuildApplicationWithCache("f0c46b7c-fc78-463f-b32c-f2ca92994e71"); // Custom one
         IPublicClientApplication app = await MsalClientHelper.BuildApplicationWithCache("499c8d36-be2a-4231-9ebd-ef291b7bb64c");
         NestedAuthenticator authenticator = loginHandler.CreateAuthenticatorWithDefaultAccount();
         authenticator.AddMsalOAuth(app, msal => msal.InteractiveWithSingleAccount());

@@ -7,6 +7,7 @@ using CmlLib.Core.Installers;
 using CmlLib.Core.ModLoaders.FabricMC;
 using CmlLib.Core.ProcessBuilder;
 using CmlLib.Core.Version;
+using Microsoft.Extensions.Logging;
 
 namespace SynergyLauncherCore;
 
@@ -40,8 +41,7 @@ public static class MinecraftLaunchHandler
 
         // initialize launcher
         MinecraftPath path = GetMinecraftPath(modLoader);
-        MinecraftLauncherParameters parameters = MinecraftLauncherParameters.CreateDefault();
-        parameters.MinecraftPath = path;
+        MinecraftLauncherParameters parameters = MinecraftLauncherParameters.CreateDefault(path);
         MinecraftLauncher launcher = new MinecraftLauncher(parameters);
         
         // install
@@ -50,6 +50,7 @@ public static class MinecraftLaunchHandler
         
         string versionName = await InstallModLoader(logHandler, modLoader, minecraftVersion, path, launcher, installerProgressChangedSync, byteProgressChangedSync, cancellationToken);
         await launcher.GetAllVersionsAsync(cancellationToken);
+        
         MinecraftVersion logOverridenVersion = await InjectCustomLogSettings(launcher, versionName, cancellationToken);
         await launcher.InstallAsync(logOverridenVersion, installerProgressChangedSync, byteProgressChangedSync, cancellationToken);
         
@@ -64,6 +65,8 @@ public static class MinecraftLaunchHandler
             Session = session,
             ServerIp = serverIp
         });
+        
+        logHandler.LogDebug("Launcher", $"[DEBUG] Minecraft Launch Args: {process.StartInfo.Arguments}");
 
         ProcessWrapper processWrapper = new ProcessWrapper(process);
         processWrapper.OutputReceived += (s, e) => logHandler.Log("Minecraft", e);  

@@ -10,6 +10,7 @@
         Width="800"
         x:Class="SynergyLauncherUI.MainWindow"
         Background="#222222"
+        x:DataType="synergyLauncherUi:MainWindow" Classes.running="{Binding GameRunning}"
         Title="Synergy Launcher">
     <StackPanel TextElement.Foreground="White">
         <ScrollViewer Height="440" MinWidth="800" Margin="8" Name="LogScrollView">
@@ -23,10 +24,10 @@
         </ScrollViewer>
         <Button Click="PlayButton_OnClick" Name="PlayButton" HorizontalAlignment="Center"
                 VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="16 16 16 2" Width="200"
-                Height="50" FontSize="30" IsEnabled="False">
+                Height="50" FontSize="30" IsEnabled="False" x:DataType="synergyLauncherUi:MainWindow" Classes.running="{Binding GameRunning}">
             <Button.Styles>
-                <Style Selector="Button">
-                    <Setter Property="Background" Value="Chartreuse" />
+                <Style Selector="Button Window.running /template/ ContentPresenter">
+                    <Setter Property="Background" Value="Chartreuse"/>
                 </Style>
                 <Style Selector="Button:pointerover /template/ ContentPresenter">
                     <Setter Property="Background" Value="Green" />
