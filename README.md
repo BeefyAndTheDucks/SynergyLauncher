@@ -2,11 +2,11 @@
 A Minecraft launcher that can automatically connect to Synergy.
 
 ## Features
-[x] Automatically detects the version of Minecraft that Synergy is using
-[x] Automatically connects to Synergy.
-[x] Supports Fabric and Vanilla Minecraft.
-[ ] Modrinth mod downloading
-[ ] Support for other servers
+- [x] Automatically detects the version of Minecraft that Synergy is using
+- [x] Automatically connects to Synergy.
+- [x] Supports Fabric and Vanilla Minecraft.
+- [ ] Modrinth mod downloading
+- [ ] Support for other servers
 
 ### Framework
 It is developed using .NET 8.0 and uses CmlCore for launching Minecraft.
