@@ -65,7 +65,7 @@ public partial class MainWindow : Window
         }
         catch (Exception e)
         {
-            Storage.Logger!.Log("Launcher", $"[ERROR] {e.Message}");
+            Storage.Logger!.Log("Launcher", $"[ERROR] Failed to sign in: {e.Message}");
             await Dispatcher.UIThread.InvokeAsync(() => PlayButton.IsEnabled = false);
         }
     }
@@ -100,7 +100,7 @@ public partial class MainWindow : Window
             }
             catch (Exception ex)
             {
-                Storage.Logger!.Log("Launcher", $"[ERROR] {ex.Message}. Please try again.");
+                Storage.Logger!.Log("Launcher", $"[ERROR] {ex.Message}.");
                 Reset();
                 return;
             }
