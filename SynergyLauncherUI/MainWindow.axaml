@@ -23,7 +23,7 @@
             </ItemsControl>
         </ScrollViewer>
         <Button Click="PlayButton_OnClick" Name="PlayButton" HorizontalAlignment="Center"
-                VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="16 16 16 2" Width="200"
+                VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="16 16 16 2" Width="300"
                 Height="50" FontSize="30" IsEnabled="False" x:DataType="synergyLauncherUi:MainWindow" Classes.running="{Binding GameRunning}">
             <Button.Styles>
                 <Style Selector="Button Window.running /template/ ContentPresenter">
@@ -38,8 +38,14 @@
             </Button.Styles>
             Play
         </Button>
+        <TextBox Name="ServerIpOrVersion" AcceptsReturn="False" AcceptsTab="False" HorizontalAlignment="Center"
+                 VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="16 2 16 2" MinWidth="250"
+                 Height="35" Watermark="Input server IP or Minecraft Version"></TextBox>
+        <CheckBox Name="JoinOnStartup" HorizontalAlignment="Center"
+                  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="16 2 16 2"
+                  Height="35" IsChecked="True">Join after Startup</CheckBox>
         <Button Name="OpenFolderButton" Click="OpenFolderButton_OnClick" HorizontalAlignment="Center"
-                VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="16 2 16 2" Width="150"
+                VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="16 16 16 2" Width="150"
                 Height="35">
             <Button.Styles>
                 <Style Selector="Button">

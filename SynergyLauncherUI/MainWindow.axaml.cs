@@ -96,6 +96,8 @@ public partial class MainWindow : Window
                         Dispatcher.UIThread.InvokeAsync(() =>
                             ProgressText.Text =
                                 $"[{fileProgress.ProgressedTasks}/{fileProgress.TotalTasks}] Downloaded {fileProgress.Name}")),
+                    ServerIpOrVersion.Text ?? "",
+                    JoinOnStartup.IsChecked ?? true,
                     _cancellationTokenSource.Token);
             }
             catch (Exception ex)

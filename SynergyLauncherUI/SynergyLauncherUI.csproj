@@ -5,8 +5,8 @@
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
-        <TargetFramework>net8.0</TargetFramework>
         <ApplicationIcon>Assets/Icon.ico</ApplicationIcon>
+        <TargetFrameworks>net8.0;net8.0-windows</TargetFrameworks>
     </PropertyGroup>
 
     <ItemGroup>

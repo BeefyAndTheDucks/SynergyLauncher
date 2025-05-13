@@ -7,6 +7,7 @@ using CmlLib.Core.Installers;
 using CmlLib.Core.ModLoaders.FabricMC;
 using CmlLib.Core.ProcessBuilder;
 using CmlLib.Core.Version;
+using CmlLib.Core.VersionMetadata;
 using Microsoft.Extensions.Logging;
 
 namespace SynergyLauncherCore;
@@ -20,10 +21,9 @@ public static class MinecraftLaunchHandler
     
     public static async Task<ProcessWrapper> Start(MSession session, ModLoader modLoader,
         IProgress<double> progressBar, ILogHandler logHandler,
-        SyncProgress<InstallerProgressChangedEventArgs> fileProgress, CancellationToken cancellationToken = default)
+        SyncProgress<InstallerProgressChangedEventArgs> fileProgress, string serverIpOrMcVersion,
+        bool autoConnectToServer, CancellationToken cancellationToken = default)
     {
-        const string serverIp = "synergyserver.net";
-        
         logHandler.Log("Launcher", "[INFO] Starting Minecraft...");
         
         System.Net.ServicePointManager.DefaultConnectionLimit = 256;
@@ -32,17 +32,39 @@ public static class MinecraftLaunchHandler
         
         InstallerProgressChangedSync installerProgressChangedSync = new InstallerProgressChangedSync(logHandler, fileProgress);
         ByteProgressChangedSync byteProgressChangedSync = new ByteProgressChangedSync(progressBar);
-        
-        // get minecraft version
-        logHandler.Log("Launcher", "[INFO] Getting Minecraft Version of Synergy");
-        MinecraftServerInfo serverInfo = await MinecraftServerInfo.FromServerAddress(serverIp);
-        string minecraftVersion = serverInfo.Version.NameClean;
-        logHandler.Log("Launcher", $"[INFO] Minecraft Version: {minecraftVersion}");
 
         // initialize launcher
         MinecraftPath path = GetMinecraftPath(modLoader);
         MinecraftLauncherParameters parameters = MinecraftLauncherParameters.CreateDefault(path);
         MinecraftLauncher launcher = new MinecraftLauncher(parameters);
+        
+        // get minecraft version
+        logHandler.Log("Launcher", "[INFO] Determining version");
+        
+        string minecraftVersion = "1.21.5"; // TODO: Replace with latest minecraft release.
+        bool validServer = false;
+
+        if (!string.IsNullOrEmpty(serverIpOrMcVersion))
+        {
+            MinecraftServerInfo serverInfo = await MinecraftServerInfo.FromServerAddress(serverIpOrMcVersion);
+            validServer = serverInfo is { Online: true };
+
+            if (validServer)
+                minecraftVersion = serverInfo.Version.NameClean;
+            else
+            {
+                VersionMetadataCollection versions =
+                    await launcher.VersionLoader.GetVersionMetadatasAsync(cancellationToken);
+
+                if (versions.Contains(serverIpOrMcVersion))
+                    minecraftVersion = serverIpOrMcVersion;
+                else
+                    logHandler.Log("Launcher",
+                        $"[WARN] Failed to determine Minecraft version. Using latest version instead.");
+            }
+        }
+
+        logHandler.Log("Launcher", $"[INFO] Minecraft Version: {minecraftVersion}");
         
         // install
         logHandler.Log("Launcher", "[INFO] Installing/Verifying Minecraft Installation...");
@@ -60,11 +82,16 @@ public static class MinecraftLaunchHandler
 
         // build process
         logHandler.Log("Launcher", "[INFO] Creating Minecraft Process...");
-        Process process = launcher.BuildProcess(logOverridenVersion, new MLaunchOption
+
+        MLaunchOption launchOptions = new MLaunchOption
         {
-            Session = session,
-            ServerIp = serverIp
-        });
+            Session = session
+        };
+        
+        if (validServer && autoConnectToServer)
+            launchOptions.ServerIp = serverIpOrMcVersion;
+        
+        Process process = launcher.BuildProcess(logOverridenVersion, launchOptions);
         
         logHandler.LogDebug("Launcher", $"[DEBUG] Minecraft Launch Args: {process.StartInfo.Arguments}");
 
