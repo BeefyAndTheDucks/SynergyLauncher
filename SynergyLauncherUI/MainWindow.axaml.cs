@@ -35,6 +35,8 @@ public partial class MainWindow : Window
         InitializeComponent();
         DataContext = this;
         
+        Title = $"{AppInfo.Name} {AppInfo.Version}";
+        
         Storage.Logger = new LogHandler(this);
         
         Logs.CollectionChanged += (_, _) =>
@@ -48,7 +50,7 @@ public partial class MainWindow : Window
         
         Closing += OnClosing;
         
-        Storage.Logger.Log("Launcher", "[INFO] Welcome to Synergy Launcher!");
+        Storage.Logger.Log("Launcher", $"[INFO] Welcome to {AppInfo.Name} {AppInfo.Version}!");
         Storage.Logger.Log("Launcher", "[INFO] Press the play button to start minecraft!");
         
         SignIn();
