@@ -3,5 +3,5 @@
 public static class AppInfo
 {
     public const string Name = "Synergy Launcher";
-    public const string Version = "v1.0.1-dev";
+    public const string Version = "v1.0.1";
 }
