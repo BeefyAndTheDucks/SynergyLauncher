@@ -5,12 +5,19 @@ A Minecraft launcher that can automatically detect Minecraft version of a server
 - [x] Automatically detects the version of Minecraft that the server is using
 - [x] Automatically connects to the server.
 - [x] Supports Mods (Fabric only for now) and Vanilla Minecraft.
-- [ ] Modrinth mod downloading
+- [ ] Modrinth (and Curseforge?) mod downloading
 - [ ] Support for other servers
 - [ ] Support for other mod-loaders
+- [ ] Modpack detection?
+- [ ] MultiMC-style profiles
+- [ ] Support for resource-packs, shader-packs, etc.
+- [ ] Sign the executable?
+- [ ] Enhanced UI
+- [ ] Skins
+- [ ] Multiple MC profiles?
 
 ### Framework
-It is developed using .NET 8.0 and uses CmlCore for launching Minecraft.
+It is developed using .NET 8.0 and uses CmlCore for actually launching Minecraft.
 
 # Building
 
